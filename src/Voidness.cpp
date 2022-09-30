@@ -9,3 +9,8 @@ Color Voidness::getColor()
 {
 	return color;
 }
+
+Object Voidness::getObject()
+{
+	return object;
+}

@@ -10,11 +10,14 @@ using namespace std;
 class Poison : public Thing {
 private:
 	Color color;
+	const Object object = Object::Poison;
 
 public:
 	Poison(Color color);
 
 	Color getColor() override;
+
+	Object getObject() override;
 };
 
 #endif // !POISON

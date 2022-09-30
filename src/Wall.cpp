@@ -9,3 +9,8 @@ Color Wall::getColor()
 {
 	return color;
 }
+
+Object Wall::getObject()
+{
+	return object;
+}

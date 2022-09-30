@@ -10,12 +10,14 @@ using namespace std;
 class Wall: public Thing {
 private:
 	Color color;
+	const Object object = Object::Wall;
 
 public:
 	Wall(Color color);
 
 	Color getColor() override;
 
+	Object getObject() override;
 };
 
 #endif // !WALL
