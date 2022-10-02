@@ -17,12 +17,12 @@ int main()
 {
 	setlocale(LC_ALL, "ru");
 	
-	cout << "¬ведите размер экрана" << endl;
+	cout << "Enter the window resolution:" << endl;
 
 	int video[2];
 	cin >> video[0] >> video[1];
 
-	cout << "¬ведите размеры карты: \nширина, высота, размер клетки, интервал" << endl;
+	cout << "Enter the map parametrs: \nwidth, height, Cellsize, interval" << endl;
 
 	int width, height, Cellsize, interval;
 
@@ -37,7 +37,7 @@ int main()
 	Poison poison(Color::Green);
 	Creature idiot(Color::Yellow);
 
-	Map map(width,height,Cellsize,interval);
+	Map map(width, height, Cellsize, interval);
 	map.setPosition(0, 0);
 
 
