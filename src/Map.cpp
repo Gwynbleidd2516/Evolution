@@ -66,6 +66,10 @@ int Map::getHeight()
 	return height;
 }
 
+Object Map::getObject(int x, int y){
+	return ObjectMap[x][y];
+}
+
 void Map::render(RenderWindow& window)
 {
 	for (int y = 0; y < height; y++) {

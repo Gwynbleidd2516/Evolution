@@ -41,7 +41,7 @@ int main()
 	map.setPosition(0, 0);
 
 
-	RandMap Rand;
+	RandMap Rand(true);
 	Rand.setRandMap(map, voidness, wall, food, poison, idiot);
 
 	while (window.isOpen())

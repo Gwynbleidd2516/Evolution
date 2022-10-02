@@ -32,6 +32,8 @@ public:
 
 	void operator =(Map& map);
 
+	Object getObject(int x, int y);
+
 	int getWidth();
 
 	int getHeight();
