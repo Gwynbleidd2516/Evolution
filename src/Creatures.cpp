@@ -9,3 +9,8 @@ Color Creature::getColor()
 {
 	return color;
 }
+
+Object Creature::getObject()
+{
+	return object;
+}

@@ -9,3 +9,8 @@ Color Food::getColor()
 {
 	return color;
 }
+
+Object Food::getObject()
+{
+	return object;
+}

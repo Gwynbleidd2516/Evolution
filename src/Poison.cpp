@@ -9,3 +9,8 @@ Color Poison::getColor()
 {
 	return color;
 }
+
+Object Poison::getObject()
+{
+	return object;
+}

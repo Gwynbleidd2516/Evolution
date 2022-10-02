@@ -1,4 +1,3 @@
-
 #ifndef CREATURES
 #define CREATURES
 
@@ -10,11 +9,14 @@ using namespace std;
 class Creature : public Thing {
 private:
 	Color color;
+	const Object object = Object::Creature;
 
 public:
 	Creature(Color color);
 
 	Color getColor() override;
+
+	Object getObject() override;
 };
 
 #endif // !CREATURES
