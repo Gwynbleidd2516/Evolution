@@ -24,7 +24,7 @@ public:
 		Wall& wall,
 		Food& food,
 		Poison& poison,
-		Creature creature);
+		Creature& creature);
 
 	RandMap(bool randMark = false);
 

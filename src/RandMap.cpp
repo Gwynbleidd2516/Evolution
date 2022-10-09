@@ -1,6 +1,6 @@
 #include "RandMap.h"
 
-void RandMap::setRandMap(Map & map, Voidness & voidness, Wall & wall, Food & food, Poison & poison, Creature creature)
+void RandMap::setRandMap(Map & map, Voidness & voidness, Wall & wall, Food & food, Poison & poison, Creature& creature)
 {
 	int Number;
 
@@ -29,9 +29,9 @@ void RandMap::setRandMap(Map & map, Voidness & voidness, Wall & wall, Food & foo
 					map.setObject(x, y, voidness);
 					std::cout<<"voidness "<<x<<"\t"<< y << endl;
 					break;
-				//case 1:
-					//map.setObject(x, y, creature);
-					//break;
+				case 1:
+					map.setObject(x, y, creature);
+					break;
 				case 2:
 					map.setObject(x, y, food);
 					std::cout<<"food "<<x<<"\t"<< y << endl;
