@@ -1,3 +1,0 @@
-U:/arrrr/Evolution/build/CMakeFiles/MyEvolution.dir
-U:/arrrr/Evolution/build/CMakeFiles/ALL_BUILD.dir
-U:/arrrr/Evolution/build/CMakeFiles/ZERO_CHECK.dir
