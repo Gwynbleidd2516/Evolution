@@ -14,3 +14,8 @@ Object Food::getObject()
 {
 	return object;
 }
+
+Text Food::getText()
+{
+	return text;
+}

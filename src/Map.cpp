@@ -9,6 +9,7 @@ Map::Map(const int width, const int height, int Cellsize, int interval)
 	CubeMap.resize(width, vector<RectangleShape>(height));
 	ColorMap.resize(width, vector<Color>(height));
 	ObjectMap.resize(width, vector<Object>(height));
+	TextMap.resize(width, vector<Text>(height));
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			CubeMap[x][y].setSize(Vector2f(Cellsize + interval, Cellsize + interval));
@@ -20,6 +21,7 @@ void Map::setObject(int x, int y, Thing& thing)
 {
 	ColorMap[x][y] = thing.getColor();
 	ObjectMap[x][y] = thing.getObject();
+	TextMap[x][y] = thing.getText();
 }
 
 void Map::setPosition(float x, float y)
@@ -28,8 +30,12 @@ void Map::setPosition(float x, float y)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			CubeMap[x][y].setPosition(CubeMap[0][0].getPosition().x + (Cellsize * x), CubeMap[0][0].getPosition().y + (Cellsize * y));
+			TextMap[x][y].setPosition(CubeMap[x][y].getPosition());
+			#ifdef DEBUG_MAP
+			if(ObjectMap[x][y]==Object::Creature)
+				cout<<TextMap[x][y].getPosition().x<<"\t"<<TextMap[x][y].getPosition().y<<"\t"<<x<<"\t"<<y<<endl;
+			#endif
 		}
-
 	}
 }
 
@@ -40,9 +46,10 @@ void Map::setPosition(Vector2f vector)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			CubeMap[x][y].setPosition(CubeMap[0][0].getPosition().x + (Cellsize * x), CubeMap[0][0].getPosition().y + (Cellsize * y));
+			TextMap[x][y].setPosition(CubeMap[x][y].getPosition());
+			
 		}
 	}
-	
 }
 
 void Map::operator=(Map & map)
@@ -66,8 +73,14 @@ int Map::getHeight()
 	return height;
 }
 
-Object Map::getObject(int x, int y){
+Object Map::getObject(int x, int y)
+{
 	return ObjectMap[x][y];
+}
+
+Object Map::getObject(Vector2i vector)
+{
+	return ObjectMap[vector.x][vector.y];
 }
 
 void Map::render(RenderWindow& window)
@@ -83,6 +96,7 @@ void Map::render(RenderWindow& window)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			window.draw(CubeMap[x][y]);
+			//window.draw(TextMap[x][y]);
 		}
 	}
 }

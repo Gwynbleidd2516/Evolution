@@ -4,6 +4,8 @@
 #include<ctime>
 #include<iostream>
 
+//#define DEBUG
+
 #include"Map.h"
 #include"Food.h"
 #include"Wall.h"
@@ -11,9 +13,13 @@
 #include"Poison.h"
 #include"Creatures.h"
 #include"Things.h"
-#include<iostream>
 using namespace sf;
+
+
+#ifdef DEBUG
+#include<iostream>
 using namespace std;
+#endif
 
 class RandMap {
 private:
@@ -23,10 +29,12 @@ public:
 		Voidness& voidness,
 		Wall& wall,
 		Food& food,
-		Poison& poison,
-		Creature& creature);
+		Poison& poison
+		);
 
 	RandMap(bool randMark = false);
 
 	void setRandMark(bool randMark);
+
+	void setCreatures(Map& map, Creature& creature);
 };

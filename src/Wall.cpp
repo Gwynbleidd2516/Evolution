@@ -14,3 +14,8 @@ Object Wall::getObject()
 {
 	return object;
 }
+
+Text Wall::getText()
+{
+	return text;
+}

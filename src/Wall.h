@@ -11,6 +11,7 @@ class Wall: public Thing {
 private:
 	Color color;
 	const Object object = Object::Wall;
+	Text text;
 
 public:
 	Wall(Color color);
@@ -18,6 +19,8 @@ public:
 	Color getColor() override;
 
 	Object getObject() override;
+
+	Text getText() override;
 };
 
 #endif // !WALL

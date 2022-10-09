@@ -1,6 +1,7 @@
 #include<iostream>
 #include <SFML/Graphics.hpp>
 #include<string>
+#include<vector>
 
 #include"Map.h"
 #include"Food.h"
@@ -10,6 +11,7 @@
 #include"Creatures.h"
 #include"Things.h"
 #include"RandMap.h"
+#include"Step.h"
 using namespace sf;
 using namespace std;
 
@@ -18,9 +20,9 @@ int main()
 	setlocale(LC_ALL, "ru");
 	int width, height, Cellsize, interval;
 	int video[2];
-	bool a;
+	bool a=false;
 
-	cin >> a;
+	
 	if(a){
 	cout << "Enter the window resolution:" << endl;
 
@@ -46,14 +48,30 @@ int main()
 	Wall wall(Color::Red);
 	Food food(Color::Green);
 	Poison poisonn(Color::Yellow);
-	Creature idiot(Color::Cyan);
+
+	vector<Creature> idiots(16);
+	for (int i=0;i<idiots.size();i++)
+	{
+		idiots[i].setCreature(Color::Cyan,false);
+	}
 
 	Map map(width, height, Cellsize, interval);
 	map.setPosition(0, 0);
 
 
 	RandMap Rand(true);
-	Rand.setRandMap(map, voidness, wall, food, poisonn, idiot);
+	Rand.setRandMap(map, voidness, wall, food, poisonn);
+
+	for (int i = 0; i < idiots.size(); i++)
+	{
+		Rand.setCreatures(map, idiots[i]);
+	}
+
+	Clock clock;
+
+	Step step;
+
+	bool pause=false;
 
 	while (window.isOpen())
 	{
@@ -62,6 +80,20 @@ int main()
 		{
 			if (event.type == sf::Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape))
 				window.close();
+
+			if (Keyboard::isKeyPressed(Keyboard::Space) || event.type==event.KeyReleased)
+			{
+				if(pause) pause=false;
+				else pause=true;
+			}
+			
+		}
+		
+		cout<<pause<<endl;
+		if (clock.getElapsedTime().asSeconds()>1 && !pause)
+		{
+			step.doStep(map, idiots, voidness);
+			clock.restart();
 		}
 
 		window.clear();

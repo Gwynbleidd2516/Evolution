@@ -21,6 +21,8 @@ public:
 	virtual Color getColor() = 0;
 
 	virtual Object getObject() = 0;
+
+	virtual Text getText() = 0;
 };
 
 #endif // !THINGS

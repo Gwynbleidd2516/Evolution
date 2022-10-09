@@ -11,6 +11,7 @@ class Food : public Thing {
 private:
 	Color color;
 	const Object object = Object::Food;
+	Text text;
 
 public:
 	Food(Color color);
@@ -18,6 +19,8 @@ public:
 	Color getColor() override;
 
 	Object getObject() override;
+
+	Text getText() override;
 };
 
 #endif // !FOOD

@@ -11,6 +11,7 @@ class Poison : public Thing {
 private:
 	Color color;
 	const Object object = Object::Poison;
+	Text text;
 
 public:
 	Poison(Color color);
@@ -18,6 +19,8 @@ public:
 	Color getColor() override;
 
 	Object getObject() override;
+
+	Text getText() override;
 };
 
 #endif // !POISON

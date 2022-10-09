@@ -11,6 +11,7 @@ class Voidness : public Thing {
 private:
 	Color color;
 	const Object object = Object::Voidness;
+	Text text;
 
 public:
 	Voidness(Color color);
@@ -18,6 +19,8 @@ public:
 	Color getColor() override;
 
 	Object getObject() override;
+
+	Text getText() override;
 };
 
 #endif // !VOIDNESS

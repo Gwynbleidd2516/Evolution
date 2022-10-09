@@ -14,3 +14,8 @@ Object Poison::getObject()
 {
 	return object;
 }
+
+Text Poison::getText()
+{
+	return text;
+}
