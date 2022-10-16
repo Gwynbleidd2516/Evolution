@@ -59,12 +59,12 @@ int main()
 	map.setPosition(0, 0);
 
 
-	RandMap Rand(true);
+	RandMap Rand(false);
 	Rand.setRandMap(map, voidness, wall, food, poisonn);
 
 	for (int i = 0; i < idiots.size(); i++)
 	{
-		Rand.setCreatures(map, idiots[i]);
+		Rand.setCreatures(map, idiots[i], false);
 	}
 
 	Clock clock;
@@ -90,7 +90,7 @@ int main()
 		}
 		
 		cout<<pause<<endl;
-		if (clock.getElapsedTime().asSeconds()>1 && !pause)
+		if (clock.getElapsedTime().asSeconds()>3 && pause)
 		{
 			step.doStep(map, idiots, voidness);
 			clock.restart();

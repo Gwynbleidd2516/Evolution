@@ -8,6 +8,19 @@
 using namespace sf;
 using namespace std;
 
+enum class Direction
+	{
+		LEFT_UP,
+		UP,
+		RIGHT_UP,
+		RIGHT,
+		DOWN_RIGHT,
+		DOWN,
+		DOWN_LEFT,
+		LEFT,
+		NONE
+	};
+
 class Creature : public Thing {
 private:
 	Color color;
@@ -17,6 +30,7 @@ private:
 	int life = 30;
 	Text text;
 	Vector2i position;
+	Direction direction=Direction::NONE;
 
 public: vector<int> comands;
 	
@@ -40,6 +54,10 @@ public:
 	void setCordinats(int x, int y);
 
 	Vector2i getCordinats();
+
+	Direction getDirection();
+
+	void setDirection(Direction direction);
 };
 
 #endif // !CREATURES

@@ -36,5 +36,5 @@ public:
 
 	void setRandMark(bool randMark);
 
-	void setCreatures(Map& map, Creature& creature);
+	void setCreatures(Map& map, Creature& creature, bool random=true);
 };

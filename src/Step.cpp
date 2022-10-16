@@ -4,88 +4,216 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
 {
     for (int i = 0; i < creatures.size(); ++i)
     {
-        for (int r = 0; r < creatures[i].comands.size(); ++r)
+        int r = -1;
+
+        while (r < creatures[i].comands.size())
         {
+            r++;
+            int comand = creatures[i].comands[r];
+
             if (creatures[i].comands[r] < 8)
             {
-                #ifdef DEBUG_STEP
-                cout<<i<<"\t"<<r<<endl;
-                #endif
-                switch (creatures[i].comands[r])
-                {
-                case 0:
-                    if (map.getObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y-1)!=Object::Wall /* || map.getObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y-1)!=Object::Creature*/)
-                    {
-                        map.setObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y-1,creatures[i]);
-          
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
+                Direction dir=creatures[i].getDirection();
 
-                        creatures[i].setCordinats(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y-1);
-                    }
-                    break;
-                    break;
-                case 1:
-                    if (map.getObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y-1)!=Object::Wall /*|| map.getObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y-1)!=Object::Creature*/)
+                Vector2i cord_in_future;
+                Vector2i cord_now;
+
+                switch (dir)
+                {
+                case Direction::LEFT_UP:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y-1);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
                     {
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y-1,creatures[i]);
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
-                        creatures[i].setCordinats(creatures[i].getCordinats().x, creatures[i].getCordinats().y-1);
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
                     }
+                
                     break;
-                    break;
-                case 2:
-                    if (map.getObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y-1)!=Object::Wall /*|| map.getObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y-1)!=Object::Creature*/)
+                case Direction::UP:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y-1);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
                     {
-                        map.setObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y-1,creatures[i]);
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
-                        creatures[i].setCordinats(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y-1);
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
                     }
+
                     break;
-                    break;
-                case 3:
-                    if (map.getObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y)!=Object::Wall /*|| map.getObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y)!=Object::Creature*/)
+                case Direction::RIGHT_UP:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y-1);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
                     {
-                        map.setObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y,creatures[i]);
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
-                        creatures[i].setCordinats(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y);
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
                     }
+
                     break;
-                    break;
-                case 4:
-                    if (map.getObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y+1)!=Object::Wall /*|| map.getObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y+1)!=Object::Creature*/)
+
+                case Direction::RIGHT:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
                     {
-                        map.setObject(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y+1,creatures[i]);
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
-                        creatures[i].setCordinats(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y+1);
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
                     }
+                
                     break;
-                    break;
-                case 5:
-                    if (map.getObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y+1)!=Object::Wall /*|| map.getObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y+1)!=Object::Creature*/)
+
+                case Direction::DOWN_RIGHT:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x+1, creatures[i].getCordinats().y+1);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
                     {
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y+1,creatures[i]);
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
-                        creatures[i].setCordinats(creatures[i].getCordinats().x, creatures[i].getCordinats().y+1);
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
                     }
+                
                     break;
-                    break;
-                case 6:
-                    if (map.getObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y+1)!=Object::Wall /*|| map.getObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y+1)!=Object::Creature*/)
+                case Direction::DOWN:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y+1);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
                     {
-                        map.setObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y+1,creatures[i]);
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
-                        creatures[i].setCordinats(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y+1);
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
                     }
+                
                     break;
-                    break;
-                case 7:
-                    if (map.getObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y)!=Object::Wall /*|| map.getObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y)!=Object::Creature*/)
+                case Direction::DOWN_LEFT:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y+1);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
                     {
-                        map.setObject(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y, creatures[i]);
-                        map.setObject(creatures[i].getCordinats().x, creatures[i].getCordinats().y, voidness);
-                        creatures[i].setCordinats(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y);
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
                     }
+                
                     break;
+                case Direction::LEFT:
+                
+                    cord_in_future=Vector2i(creatures[i].getCordinats().x-1, creatures[i].getCordinats().y);
+                    cord_now=Vector2i(creatures[i].getCordinats().x, creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord_in_future)==Object::Voidness)
+                    {
+                        map.setObject(cord_in_future,creatures[i]);
+                        map.setObject(cord_now,voidness);
+                        creatures[i].setCordinats(cord_in_future);
+                        r+=comand;
+                        if(r>=comands.size())
+                        {
+                            r-=comands.size();
+                        }
+                        break;
+                    }
+                
+                    break;
+                }
+            }
+
+
+            if (comand >= 8 && comand < 16)
+            {
+                switch (comand)
+                {
+                case 8:
+                    creatures[i].setDirection(Direction::LEFT_UP);
+                    
+                    break;
+                case 9:
+                    creatures[i].setDirection(Direction::UP);
+                    
+                    break;
+                case 10:
+                    creatures[i].setDirection(Direction::RIGHT_UP);
+                    r+=comand;
+                    
+                    break;
+                case 11:
+                    creatures[i].setDirection(Direction::RIGHT);
+                    
+                    break;
+                case 12:
+                    creatures[i].setDirection(Direction::DOWN_RIGHT);
+                    
+                    break;
+                case 13:
+                    creatures[i].setDirection(Direction::DOWN);
+                    
+                    break;
+                case 14:
+                    creatures[i].setDirection(Direction::DOWN_LEFT);
+                    
+                    break;
+                case 15:
+                    creatures[i].setDirection(Direction::LEFT);
+                    
                     break;
                 }
             }

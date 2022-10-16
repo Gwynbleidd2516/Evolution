@@ -24,6 +24,13 @@ void Map::setObject(int x, int y, Thing& thing)
 	TextMap[x][y] = thing.getText();
 }
 
+void Map::setObject(Vector2i vector, Thing & thing)
+{
+	ColorMap[vector.x][vector.y] = thing.getColor();
+	ObjectMap[vector.x][vector.y] = thing.getObject();
+	TextMap[vector.x][vector.y] = thing.getText();
+}
+
 void Map::setPosition(float x, float y)
 {
 	CubeMap[0][0].setPosition(x, y);

@@ -4,11 +4,15 @@ Creature::Creature(Color color, bool brand)
 {
 	int number;
 	this->color = color;
+
 	if(brand) srand(time(0));
-	for(int i=0;i<48;i++){
+
+	for(int i=0;i<48;i++)
+	{
 		number=rand() % 17;
 		comands.push_back(number);
 	}
+
 	font.loadFromFile("res\\Time-Roman-Normal-Font.ttf");
 	Text txt(to_string(life),font);
 	text=txt;
@@ -68,4 +72,14 @@ void Creature::setCordinats(int x, int y)
 Vector2i Creature::getCordinats()
 {
 	return position;
+}
+
+void Creature::setDirection(Direction direction)
+{
+	this->direction = direction;
+}
+
+Direction Creature::getDirection()
+{
+	return direction;
 }

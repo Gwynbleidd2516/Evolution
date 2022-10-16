@@ -65,8 +65,10 @@ void RandMap::setRandMark(bool randMark)
 	this->randMark = randMark;
 }
 
-void RandMap::setCreatures(Map& map, Creature& creature)
+void RandMap::setCreatures(Map& map, Creature& creature, bool random)
 {
+	if(random) srand(time(0));
+	
 	int Number[2];
 	while(true)
 	{

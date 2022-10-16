@@ -34,6 +34,8 @@ public:
 
 	void setObject(int x, int y, Thing& thing);
 
+	void setObject(Vector2i vector, Thing & thing);
+
 	void setPosition(float x, float y);
 
 	void setPosition(Vector2f vector);
