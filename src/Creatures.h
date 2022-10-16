@@ -57,6 +57,8 @@ public:
 	Direction getDirection();
 
 	void setDirection(Direction direction);
+
+	void setRandomComands();
 };
 
 #endif // !CREATURES

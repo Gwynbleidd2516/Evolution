@@ -2,18 +2,24 @@
 
 void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
 {
-    for (int i = 0; i < creatures.size(); ++i)
+    for (int i = 0; i < creatures.size(); i++)
     {
         int r = -1;
 
-        while (r > creatures[i].comands.size())
+        while (true/*r > creatures[i].comands.size()-1*/)
         {
             r++;
+           
+            if(r>=creatures[i].comands.size())
+            {
+                break;
+            }
+
             int comand = creatures[i].comands[r];
+
 
             if (comand < 8)
             {
-                
                 Direction dir=creatures[i].getDirection();
 
                 Vector2i cord_in_future;
@@ -31,17 +37,10 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
 
-                        
-
-                        break;
                     }
-                #ifdef DEBUG_STEP
+                    #ifdef DEBUG_STEP
                         cout<<"LEFT_UP"<<endl;
                         #endif
                     break;
@@ -55,17 +54,12 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
 
                         #ifdef DEBUG_STEP
                         cout<<"UP"<<endl;
                         #endif
 
-                        break;
                     }
 
                     break;
@@ -79,17 +73,12 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
 
                         #ifdef DEBUG_STEP
                         cout<<"RIGHT_UP"<<endl;
                         #endif
 
-                        break;
                     }
 
                     break;
@@ -104,17 +93,12 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
 
                         #ifdef DEBUG_STEP
                         cout<<"RIGHT"<<endl;
                         #endif
 
-                        break;
                     }
                 
                     break;
@@ -129,17 +113,13 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
+                        
 
                         #ifdef DEBUG_STEP
                         cout<<"DOWN_RIGHT"<<endl;
                         #endif
 
-                        break;
                     }
                 
                     break;
@@ -153,17 +133,12 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
 
                         #ifdef DEBUG_STEP
                         cout<<"DOWN"<<endl;
                         #endif
 
-                        break;
                     }
                 
                     break;
@@ -177,17 +152,12 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
 
                         #ifdef DEBUG_STEP
                         cout<<"DOWN_LEFT"<<endl;
                         #endif
 
-                        break;
                     }
                 
                     break;
@@ -201,17 +171,12 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         map.setObject(cord_in_future,creatures[i]);
                         map.setObject(cord_now,voidness);
                         creatures[i].setCordinats(cord_in_future);
-                        r+=comand;
-                        if(r>=comands.size())
-                        {
-                            r-=comands.size();
-                        }
+                        r=creatures[i].comands.size()+2;
 
                         #ifdef DEBUG_STEP
                         cout<<"LEFT"<<endl;
                         #endif
 
-                        break;
                     }
                 
                     break;
@@ -289,6 +254,123 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                     break;
                 }
             }
+
+            if(comand>=16 && comand<24)
+            {
+                Vector2i cord;
+
+                switch (comand)
+                {
+                case 16:
+                    cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y-1);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                case 17:
+                    cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y-1);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                case 18:
+                    cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y-1);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                case 19:
+                    cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                case 20:
+                    cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y+1);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                case 21:
+                    cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y+1);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                case 22:
+                    cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y+1);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                case 23:
+                    cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y);
+                    
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            
         }
     }
 }

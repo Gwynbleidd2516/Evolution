@@ -6,6 +6,10 @@ Map::Map(const int width, const int height, int Cellsize, int interval)
 	this->height = height;
 	this->Cellsize = Cellsize;
 	this->interval = interval;
+	if (Cellsize<5)
+	{
+		this->Cellsize=10;
+	}
 	CubeMap.resize(width, vector<RectangleShape>(height));
 	ColorMap.resize(width, vector<Color>(height));
 	ObjectMap.resize(width, vector<Object>(height));
@@ -13,6 +17,7 @@ Map::Map(const int width, const int height, int Cellsize, int interval)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			CubeMap[x][y].setSize(Vector2f(Cellsize + interval, Cellsize + interval));
+			TextMap[x][y].setCharacterSize(Cellsize);			
 		}
 	}
 }
@@ -37,7 +42,7 @@ void Map::setPosition(float x, float y)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			CubeMap[x][y].setPosition(CubeMap[0][0].getPosition().x + (Cellsize * x), CubeMap[0][0].getPosition().y + (Cellsize * y));
-			TextMap[x][y].setPosition(CubeMap[x][y].getPosition());
+			TextMap[x][y].setPosition(CubeMap[x][y].getPosition().x, CubeMap[x][y].getPosition().y-CubeMap[x][y].getSize().y*0.2);
 			#ifdef DEBUG_MAP
 			if(ObjectMap[x][y]==Object::Creature)
 				cout<<TextMap[x][y].getPosition().x<<"\t"<<TextMap[x][y].getPosition().y<<"\t"<<x<<"\t"<<y<<endl;
@@ -53,7 +58,7 @@ void Map::setPosition(Vector2f vector)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			CubeMap[x][y].setPosition(CubeMap[0][0].getPosition().x + (Cellsize * x), CubeMap[0][0].getPosition().y + (Cellsize * y));
-			TextMap[x][y].setPosition(CubeMap[x][y].getPosition());
+			TextMap[x][y].setPosition(CubeMap[x][y].getPosition().x, CubeMap[x][y].getPosition().y-CubeMap[x][y].getSize().y*0.2);
 			
 		}
 	}
@@ -103,7 +108,7 @@ void Map::render(RenderWindow& window)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			window.draw(CubeMap[x][y]);
-			//window.draw(TextMap[x][y]);
+			window.draw(TextMap[x][y]);
 		}
 	}
 }

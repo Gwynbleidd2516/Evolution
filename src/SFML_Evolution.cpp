@@ -52,7 +52,7 @@ int main()
 	vector<Creature> idiots(16);
 	for (int i=0;i<idiots.size();i++)
 	{
-		idiots[i].setCreature(Color::Cyan,false);
+		idiots[i].setCreature(Color::Cyan, false);
 	}
 
 	Map map(width, height, Cellsize, interval);
@@ -92,6 +92,10 @@ int main()
 		if (clock.getElapsedTime().asSeconds()>1)
 		{
 			step.doStep(map, idiots, voidness);
+			for(int i=0;i<idiots.size();i++)
+			{
+				idiots[i].setRandomComands();
+			}
 			clock.restart();
 		}
 
