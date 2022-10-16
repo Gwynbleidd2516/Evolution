@@ -6,13 +6,14 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
     {
         int r = -1;
 
-        while (r < creatures[i].comands.size())
+        while (r > creatures[i].comands.size())
         {
             r++;
             int comand = creatures[i].comands[r];
 
-            if (creatures[i].comands[r] < 8)
+            if (comand < 8)
             {
+                
                 Direction dir=creatures[i].getDirection();
 
                 Vector2i cord_in_future;
@@ -35,9 +36,14 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        
+
                         break;
                     }
-                
+                #ifdef DEBUG_STEP
+                        cout<<"LEFT_UP"<<endl;
+                        #endif
                     break;
                 case Direction::UP:
                 
@@ -54,6 +60,11 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        #ifdef DEBUG_STEP
+                        cout<<"UP"<<endl;
+                        #endif
+
                         break;
                     }
 
@@ -73,6 +84,11 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        #ifdef DEBUG_STEP
+                        cout<<"RIGHT_UP"<<endl;
+                        #endif
+
                         break;
                     }
 
@@ -93,6 +109,11 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        #ifdef DEBUG_STEP
+                        cout<<"RIGHT"<<endl;
+                        #endif
+
                         break;
                     }
                 
@@ -113,6 +134,11 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        #ifdef DEBUG_STEP
+                        cout<<"DOWN_RIGHT"<<endl;
+                        #endif
+
                         break;
                     }
                 
@@ -132,6 +158,11 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        #ifdef DEBUG_STEP
+                        cout<<"DOWN"<<endl;
+                        #endif
+
                         break;
                     }
                 
@@ -151,6 +182,11 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        #ifdef DEBUG_STEP
+                        cout<<"DOWN_LEFT"<<endl;
+                        #endif
+
                         break;
                     }
                 
@@ -170,6 +206,11 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                         {
                             r-=comands.size();
                         }
+
+                        #ifdef DEBUG_STEP
+                        cout<<"LEFT"<<endl;
+                        #endif
+
                         break;
                     }
                 
@@ -184,36 +225,67 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                 {
                 case 8:
                     creatures[i].setDirection(Direction::LEFT_UP);
+
+                    #ifdef DEBUG_STEP
+                        cout<<"setLEFT_UP"<<endl;
+                    #endif
                     
                     break;
                 case 9:
                     creatures[i].setDirection(Direction::UP);
+
+                    #ifdef DEBUG_STEP
+                        cout<<"setUP"<<endl;
+                    #endif
                     
                     break;
                 case 10:
                     creatures[i].setDirection(Direction::RIGHT_UP);
-                    r+=comand;
+
+                    #ifdef DEBUG_STEP
+                        cout<<"setRIGHT_UP"<<endl;
+                    #endif
                     
                     break;
                 case 11:
                     creatures[i].setDirection(Direction::RIGHT);
                     
+                    #ifdef DEBUG_STEP
+                        cout<<"setRIGHT"<<endl;
+                    #endif
+
                     break;
                 case 12:
                     creatures[i].setDirection(Direction::DOWN_RIGHT);
                     
+                    #ifdef DEBUG_STEP
+                        cout<<"setDOWN_RIGHT"<<endl;
+                    #endif
+
                     break;
                 case 13:
                     creatures[i].setDirection(Direction::DOWN);
+
+                    #ifdef DEBUG_STEP
+                        cout<<"setDOWN"<<endl;
+                    #endif
                     
                     break;
                 case 14:
                     creatures[i].setDirection(Direction::DOWN_LEFT);
+
+                    #ifdef DEBUG_STEP
+                        cout<<"setDOWN_LEFT"<<endl;
+                    #endif
                     
                     break;
                 case 15:
                     creatures[i].setDirection(Direction::LEFT);
                     
+                    #ifdef DEBUG_STEP
+                        cout<<"setLEFT"<<endl;
+                    #endif
+
                     break;
                 }
             }

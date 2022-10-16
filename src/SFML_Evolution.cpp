@@ -89,8 +89,7 @@ int main()
 			
 		}
 		
-		cout<<pause<<endl;
-		if (clock.getElapsedTime().asSeconds()>3 && pause)
+		if (clock.getElapsedTime().asSeconds()>1)
 		{
 			step.doStep(map, idiots, voidness);
 			clock.restart();

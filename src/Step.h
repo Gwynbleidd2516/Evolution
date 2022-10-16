@@ -6,7 +6,7 @@
 #include"Creatures.h"
 #include"Voidness.h"
 
-//#define DEBUG_STEP
+#define DEBUG_STEP
 #ifdef DEBUG_STEP
 #include<iostream>
 #endif

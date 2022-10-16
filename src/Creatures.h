@@ -17,8 +17,7 @@ enum class Direction
 		DOWN_RIGHT,
 		DOWN,
 		DOWN_LEFT,
-		LEFT,
-		NONE
+		LEFT
 	};
 
 class Creature : public Thing {
@@ -30,7 +29,7 @@ private:
 	int life = 30;
 	Text text;
 	Vector2i position;
-	Direction direction=Direction::NONE;
+	Direction direction;
 
 public: vector<int> comands;
 	
