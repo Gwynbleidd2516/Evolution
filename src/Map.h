@@ -6,7 +6,7 @@
 #include"Things.h"
 #include<vector>
 
-//#define DEBUG_MAP
+#define DEBUG_MAP
 
 #ifdef DEBUG_MAP
 #include<iostream>

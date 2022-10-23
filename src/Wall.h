@@ -12,6 +12,7 @@ private:
 	Color color;
 	const Object object = Object::Wall;
 	Text text;
+	Font font;
 
 public:
 	Wall(Color color);

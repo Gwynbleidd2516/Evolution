@@ -27,12 +27,12 @@ private:
 public:
 	void setRandMap(Map& map,
 		Voidness& voidness,
-		Wall& wall,
-		Food& food,
-		Poison& poison
+		Wall& wall
 		);
 
 	RandMap(bool randMark = false);
 
 	void setCreatures(Map& map, Creature& creature, bool random=true);
+
+	void setFoodandPoison(Map& map, Food& food, Poison& poison, Voidness& voidness);
 };

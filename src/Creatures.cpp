@@ -1,21 +1,24 @@
 #include "Creatures.h"
+#define FONT_PATH "res\\Time-Roman-Normal-Font.ttf"
 
-Creature::Creature(Color color, bool brand)
+Creature::Creature(Color color, int life, bool brand)
 {
+	this->life=life;
+	lifeNow=life;
 	int number;
 	this->color = color;
 
 	if(brand) srand(time(0));
 
-	for(int i=0;i<48;i++)
+	for(int i = 0; i < 48; i++)
 	{
 		number=rand() % 24;
 		comands.push_back(number);
 	}
 
-	font.loadFromFile("res\\Time-Roman-Normal-Font.ttf");
+	font.loadFromFile(FONT_PATH);
 	text.setFont(font);
-	text.setString(to_string(life));
+	text.setString(to_string(lifeNow));
 
 	number=rand()%8;
 	switch (number)
@@ -54,8 +57,10 @@ Creature::Creature()
 	
 }
 
-void Creature::setCreature(Color color, bool brand)
+void Creature::setCreature(Color color, int life, bool brand)
 {
+	this->life=life;
+	lifeNow=life;
 	int number;
 	this->color = color;
 	if(brand) srand(time(0));
@@ -66,9 +71,9 @@ void Creature::setCreature(Color color, bool brand)
 		comands.push_back(number);
 	}
 
-	font.loadFromFile("res\\Time-Roman-Normal-Font.ttf");
+	font.loadFromFile(FONT_PATH);
 	text.setFont(font);
-	text.setString(to_string(life));
+	text.setString(to_string(lifeNow));
 
 	number=rand()%8;
 	switch (number)
@@ -114,11 +119,17 @@ Object Creature::getObject()
 
 void Creature::setLife(int life)
 {
-	text.setString(to_string(life));
+	text.setString(to_string(lifeNow));
+}
+
+int Creature::getLife()
+{
+	return lifeNow;
 }
 
 Text Creature::getText()
 {
+	text.setString(to_string(lifeNow));
 	return text;
 }
 
@@ -157,4 +168,54 @@ void Creature::setRandomComands()
 		number=rand() % 24;
 		comands[i]=number;
 	}
+}
+
+void Creature::operator++()
+{
+	lifeNow++;
+}
+
+void Creature::operator--()
+{
+	lifeNow--;
+}
+
+void Creature::operator+=(int value)
+{
+	lifeNow+=value;
+}
+
+void Creature::operator-=(int value)
+{
+	if(lifeNow-value>0) lifeNow-=value;
+	else lifeNow=0;
+}
+
+bool Creature::isDead()
+{
+	if(lifeNow<=0) dead = true;
+	else dead=false;
+	return dead;
+}
+
+void Creature::setDead(bool dead)
+{
+	this->dead=dead;
+}
+
+void Creature::operator=(Creature& creature)
+{
+	this->color=creature.color;
+	this->comands=creature.comands;
+	this->direction=creature.direction;
+	this->font=creature.font;
+	this->text=creature.text;
+	this->life=creature.life;
+	this->lifeNow=creature.lifeNow;
+	this->position=creature.position;
+}
+
+bool Creature::operator==(Creature& creature)
+{
+	return this->comands==creature.comands && this->position==creature.position;
 }

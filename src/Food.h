@@ -12,6 +12,7 @@ private:
 	Color color;
 	const Object object = Object::Food;
 	Text text;
+	Font font;
 
 public:
 	Food(Color color);

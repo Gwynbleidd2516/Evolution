@@ -12,6 +12,7 @@ private:
 	Color color;
 	const Object object = Object::Voidness;
 	Text text;
+	Font font;
 
 public:
 	Voidness(Color color);

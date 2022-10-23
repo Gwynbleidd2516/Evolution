@@ -27,24 +27,28 @@ private:
 	
 	Font font;
 	int life = 30;
+	int lifeNow=life;
 	Text text;
 	Vector2i position;
 	Direction direction;
+	bool dead=false;
 
 public: vector<int> comands;
 	
 public:
-	Creature(Color color, bool brand=true);
+	Creature(Color color, int life, bool brand=true);
 
 	Creature();
 
-	void setCreature(Color color, bool brand=true);
+	void setCreature(Color color, int life, bool brand=true);
 
 	Color getColor() override;
 
 	Object getObject() override;
 
 	void setLife(int life);
+	
+	int getLife();
 
 	Text getText() override;
 
@@ -59,6 +63,23 @@ public:
 	void setDirection(Direction direction);
 
 	void setRandomComands();
+
+	void operator ++();
+
+	void operator --();
+
+	void operator +=(int value);
+
+	void operator -=(int value);
+
+	bool isDead();
+
+	void setDead(bool dead);
+
+	void operator =(Creature& creature);
+
+	bool operator ==(Creature& creature);
 };
+
 
 #endif // !CREATURES

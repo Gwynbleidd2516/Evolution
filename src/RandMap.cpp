@@ -1,6 +1,6 @@
 #include "RandMap.h"
 
-void RandMap::setRandMap(Map & map, Voidness & voidness, Wall & wall, Food & food, Poison & poison)
+void RandMap::setRandMap(Map & map, Voidness & voidness, Wall & wall)
 {
 	int Number;
 
@@ -26,10 +26,10 @@ void RandMap::setRandMap(Map & map, Voidness & voidness, Wall & wall, Food & foo
 				switch (Number)
 				{
 				case 0:
-					map.setObject(x, y, food);
+					map.setObject(x, y, voidness);
 					break;
 				case 1:
-					map.setObject(x, y, poison);
+					map.setObject(x, y, voidness);
 					#ifdef DEBUG
 					std::cout<<"food "<<x<<"\t"<< y << endl;
 					#endif
@@ -74,6 +74,40 @@ void RandMap::setCreatures(Map& map, Creature& creature, bool random)
 			map.setObject(Number[0], Number[1], creature);
 			creature.setCordinats(Vector2i(Number[0], Number[1]));
 			break;
+		}
+	}
+}
+
+void RandMap::setFoodandPoison(Map& map, Food& food, Poison& poison, Voidness& voidness)
+{
+	int Number;
+
+	if (randMark) srand(time(0));
+
+	for (int y = 0; y < map.getHeight(); ++y) {
+		for (int x = 0; x < map.getWidth(); ++x) {
+
+			Number = rand() % 15;
+			
+			if(map.getObject(x,y)==Object::Voidness)
+			{
+			
+				switch (Number)
+				{
+				case 0:
+					map.setObject(x, y, food);
+					break;
+				case 1:
+					map.setObject(x, y, poison);
+					#ifdef DEBUG
+					std::cout<<"food "<<x<<"\t"<< y << endl;
+					#endif
+					break;
+				default:
+					map.setObject(x, y, voidness);					
+					break;
+				}
+			}
 		}
 	}
 }

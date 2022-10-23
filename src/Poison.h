@@ -12,6 +12,7 @@ private:
 	Color color;
 	const Object object = Object::Poison;
 	Text text;
+	Font font;
 
 public:
 	Poison(Color color);
