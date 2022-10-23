@@ -15,22 +15,34 @@
 using namespace sf;
 using namespace std;
 
-void reproduction(Map& map, vector<Creature> & Creatures, vector<Creature> & deadCreatures, int life, int howManyMustBeReproducted)
+void reproduction(Map& map, vector<Creature> & Creatures, vector<Creature> & deadCreatures, int life, int howManyMustBeReproducted, Voidness& voidness)
 {
+	srand(time(0));
 	RandMap Rand(true);
 	vector<Creature> NewCreatures;
 	for(int i=deadCreatures.size()-1; i>=deadCreatures.size()-howManyMustBeReproducted; i--)
 	{
-		deadCreatures[i].setLife(life);
-		deadCreatures[i].setDead(false);
 		for(int r=0; r<howManyMustBeReproducted; r++)
 		{
 			NewCreatures.push_back(deadCreatures[i]);
 		}
 	}
+	for (int y = 0; y < map.getHeight(); y++) {
+		for (int x = 0; x < map.getWidth(); x++) {
+			if(map.getObject(x,y)==Object::Creature || map.getObject(x,y)==Object::Food || map.getObject(x,y)==Object::Poison)
+			{
+				map.setObject(x,y,voidness);
+			}
+		}
+	}
+
 	Creatures=NewCreatures;
+	int number=rand()%Creatures.size();
+	Creatures[number].setRandomComands();
 	for (int i = 0; i < Creatures.size(); i++)
 	{
+		Creatures[i].setLife(life);
+		Creatures[i].setDead(false);
 		Rand.setCreatures(map,Creatures[i]);
 	}
 }
@@ -72,7 +84,7 @@ int main()
 	vector<Creature> idiots(16);
 	for (int i=0;i<idiots.size();i++)
 	{
-		idiots[i].setCreature(Color::Blue, 30, false);
+		idiots[i].setCreature(Color::Blue, 30);
 	}
 
 	Map map(width, height, Cellsize, interval);
@@ -115,6 +127,7 @@ int main()
 				}
 				else if(Keyboard::isKeyPressed(Keyboard::Down) && time>0.0f)
 				{
+					
 					time-=0.01f;
 				}
 			}
@@ -124,12 +137,13 @@ int main()
 		
 		if (clock.getElapsedTime().asSeconds()>time)
 		{
+			
 			for (int i = 0; i < idiots.size(); i++)
 			{
 				--idiots[i];
 			}
 
-			step.doStep(map, idiots, voidness);
+			step.doStep(map, idiots, voidness, food, poisonn);
 			
 			int deads=0;
 
@@ -153,8 +167,8 @@ int main()
 
 			if(deads==idiots.size())
 			{
+				reproduction(map,idiots,deadCreatures,30,4,voidness);
 				Rand.setFoodandPoison(map,food,poisonn,voidness);
-				reproduction(map,idiots,deadCreatures,30,4);
 			}
 
 			clock.restart();

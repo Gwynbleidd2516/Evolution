@@ -12,7 +12,7 @@ Creature::Creature(Color color, int life, bool brand)
 
 	for(int i = 0; i < 48; i++)
 	{
-		number=rand() % 24;
+		number=rand() % 32;
 		comands.push_back(number);
 	}
 
@@ -67,7 +67,7 @@ void Creature::setCreature(Color color, int life, bool brand)
 
 	for(int i=0;i<48;i++)
 	{
-		number=rand() % 24;
+		number=rand() % 32;
 		comands.push_back(number);
 	}
 
@@ -119,11 +119,16 @@ Object Creature::getObject()
 
 void Creature::setLife(int life)
 {
+	lifeNow=life;
+	if(lifeNow<=0) dead = true;
+	else dead=false;
 	text.setString(to_string(lifeNow));
 }
 
 int Creature::getLife()
 {
+	if(lifeNow<0) dead = true;
+	else dead=false;
 	return lifeNow;
 }
 
@@ -165,7 +170,7 @@ void Creature::setRandomComands()
 	int number;
 	for(int i=0;i<48;i++)
 	{
-		number=rand() % 24;
+		number=rand() % 32;
 		comands[i]=number;
 	}
 }
@@ -173,27 +178,34 @@ void Creature::setRandomComands()
 void Creature::operator++()
 {
 	lifeNow++;
+	if(lifeNow<0) dead = true;
+	else dead=false;
 }
 
 void Creature::operator--()
 {
 	lifeNow--;
+	if(lifeNow<0) dead = true;
+	else dead=false;
 }
 
 void Creature::operator+=(int value)
 {
 	lifeNow+=value;
+	if(lifeNow<=0) dead = true;
+	else dead=false;
 }
 
 void Creature::operator-=(int value)
 {
 	if(lifeNow-value>0) lifeNow-=value;
 	else lifeNow=0;
+	
 }
 
 bool Creature::isDead()
 {
-	if(lifeNow<=0) dead = true;
+	if(lifeNow<0) dead = true;
 	else dead=false;
 	return dead;
 }

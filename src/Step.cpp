@@ -1,7 +1,8 @@
 #include"Step.h"
 
-void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
+void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness, Food& food, Poison& poison)
 {
+    srand(time(0));
     for (int i = 0; i < creatures.size(); i++)
     {
         int r = -1;
@@ -265,134 +266,168 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness)
                     case 16:
                         cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y-1);
                         
-                        if(map.getObject(cord)==Object::Food)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
-                        }
-
-                        if(map.getObject(cord)==Object::Poison)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
-                        }
+                        
                         break;
                     case 17:
                         cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y-1);
                         
-                        if(map.getObject(cord)==Object::Food)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
-                        }
-
-                        if(map.getObject(cord)==Object::Poison)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
-                        }
                         break;
                     case 18:
                         cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y-1);
                         
-                        if(map.getObject(cord)==Object::Food)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
-                        }
-
-                        if(map.getObject(cord)==Object::Poison)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
-                        }
                         break;
                     case 19:
                         cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y);
                         
-                        if(map.getObject(cord)==Object::Food)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
-                        }
-
-                        if(map.getObject(cord)==Object::Poison)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
-                        }
                         break;
                     case 20:
                         cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y+1);
                         
-                        if(map.getObject(cord)==Object::Food)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
-                        }
-
-                        if(map.getObject(cord)==Object::Poison)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
-                        }
                         break;
                     case 21:
                         cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y+1);
                         
-                        if(map.getObject(cord)==Object::Food)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
-                        }
-
-                        if(map.getObject(cord)==Object::Poison)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
-                        }
                         break;
                     case 22:
                         cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y+1);
                         
-                        if(map.getObject(cord)==Object::Food)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
-                        }
-
-                        if(map.getObject(cord)==Object::Poison)
-                        {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
-                        }
                         break;
                     case 23:
                         cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y);
                         
-                        if(map.getObject(cord)==Object::Food)
+                        break;
+                    }
+
+                    int x,y;
+
+                    if(map.getObject(cord)==Object::Food)
+                    {
+                        map.setObject(cord, voidness);
+                        creatures[i]+=5;
+                        while(true)
                         {
-                            map.setObject(cord, voidness);
-                            creatures[i]+=5;
+                            x=rand()%map.getWidth();
+                            y=rand()%map.getHeight();
+                            if(map.getObject(x,y)==Object::Voidness)
+                            {
+                                map.setObject(x,y,food);
+                                break;
+                            }
                         }
+                    }
+
+                    if(map.getObject(cord)==Object::Poison)
+                    {
+                        map.setObject(cord, voidness);
+                        creatures[i]-=5;
+                        while(true)
+                        {
+                            x=rand()%map.getWidth();
+                            y=rand()%map.getHeight();
+                            if(map.getObject(x,y)==Object::Voidness)
+                            {
+                                map.setObject(x,y,poison);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(comand>=24 && comand<32)
+                {
+                    Vector2i cord;
+                    switch (comand)
+                    {
+                    case 24:
+                        cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y-1);
 
                         if(map.getObject(cord)==Object::Poison)
                         {
-                            map.setObject(cord, voidness);
-                            creatures[i]-=5;
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
+                        }
+                        break;
+                    case 25:
+                        cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y-1);
+                        
+                        if(map.getObject(cord)==Object::Poison)
+                        {
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
+                        }
+                        break;
+                    case 26:
+                        cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y-1);
+                        
+                        if(map.getObject(cord)==Object::Poison)
+                        {
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
+                        }
+                        break;
+                    case 27:
+                        cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y);
+                        
+                        if(map.getObject(cord)==Object::Poison)
+                        {
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
+                        }
+                        break;
+                    case 28:
+                        cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y+1);
+                        
+                        if(map.getObject(cord)==Object::Poison)
+                        {
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
+                        }
+                        break;
+                    case 29:
+                        cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y+1);
+                        
+                        if(map.getObject(cord)==Object::Poison)
+                        {
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
+                        }
+                        break;
+                    case 30:
+                        cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y+1);
+                        
+                        if(map.getObject(cord)==Object::Poison)
+                        {
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
+                        }
+                        break;
+                    case 31:
+                        cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y);
+                        
+                        if(map.getObject(cord)==Object::Poison)
+                        {
+                            map.setObject(cord, food);
+                            #ifdef DEBUG_STEP
+                            cout<<"ChANGE_POISON"<<endl;
+                            #endif
                         }
                         break;
                     default:
                         break;
-                    }
-                }
-
-                if(comand>=24)
-                {
-                    r+=comand;
-                    if(r>=creatures[i].comands.size())
-                    {
-                        r-=creatures[i].comands.size()+1;
                     }
                 }
                 
