@@ -13,15 +13,18 @@ private:
 	const Object object = Object::Food;
 	Text text;
 	Font font;
+	int food;
 
 public:
-	Food(Color color);
+	Food(Color color, int food);
 
 	Color getColor() override;
 
 	Object getObject() override;
 
 	Text getText() override;
+
+	int getFood();
 };
 
 #endif // !FOOD

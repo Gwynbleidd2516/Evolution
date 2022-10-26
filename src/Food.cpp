@@ -1,9 +1,9 @@
 #include "Food.h"
-#define FONT_PATH "res\\Time-Roman-Normal-Font.ttf"
 
-Food::Food(Color color)
+Food::Food(Color color, int food)
 {
 	this->color = color;
+	this->food=food;
 	font.loadFromFile(FONT_PATH);
 	text.setFont(font);
 	text.setString(" ");
@@ -22,4 +22,9 @@ Object Food::getObject()
 Text Food::getText()
 {
 	return text;
+}
+
+int Food::getFood()
+{
+	return food;
 }

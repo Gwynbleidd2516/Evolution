@@ -1,9 +1,9 @@
 #include "Poison.h"
-#define FONT_PATH "res\\Time-Roman-Normal-Font.ttf"
 
-Poison::Poison(Color color)
+Poison::Poison(Color color, int poison)
 {
 	this->color = color;
+	this->poison=poison;
 	font.loadFromFile(FONT_PATH);
 	text.setFont(font);
 	text.setString(" ");
@@ -22,4 +22,9 @@ Object Poison::getObject()
 Text Poison::getText()
 {
 	return text;
+}
+
+int Poison::getPoison()
+{
+	return poison;
 }

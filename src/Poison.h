@@ -13,15 +13,18 @@ private:
 	const Object object = Object::Poison;
 	Text text;
 	Font font;
+	int poison;
 
 public:
-	Poison(Color color);
+	Poison(Color color, int poison);
 
 	Color getColor() override;
 
 	Object getObject() override;
 
 	Text getText() override;
+
+	int getPoison();
 };
 
 #endif // !POISON

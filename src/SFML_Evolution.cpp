@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include<string>
 #include<vector>
+#include<math.h>
 
 #include"Map.h"
 #include"Food.h"
@@ -15,7 +16,9 @@
 using namespace sf;
 using namespace std;
 
-void reproduction(Map& map, vector<Creature> & Creatures, vector<Creature> & deadCreatures, int life, int howManyMustBeReproducted, Voidness& voidness)
+#define DEBUG
+
+void reborn(Map& map, vector<Creature> & Creatures, vector<Creature> & deadCreatures, int life, int howManyMustBeReproducted, Voidness& voidness)
 {
 	srand(time(0));
 	RandMap Rand(true);
@@ -38,13 +41,56 @@ void reproduction(Map& map, vector<Creature> & Creatures, vector<Creature> & dea
 
 	Creatures=NewCreatures;
 	int number=rand()%Creatures.size();
-	Creatures[number].setRandomComands();
+	Creatures[number].comands[number]=rand()%32;
+	Creatures[number].comands[number+1]=rand()%32;
 	for (int i = 0; i < Creatures.size(); i++)
 	{
 		Creatures[i].setLife(life);
 		Creatures[i].setDead(false);
 		Rand.setCreatures(map,Creatures[i]);
 	}
+}
+
+void reproduction(Map& map, vector<Creature>& creatures, int howMany, Vector2i lifeReproduction)
+{
+	srand(time(0));
+	int amount=creatures.size();
+	int number;
+	int change;
+	int x;
+	int y;
+	for(int i=0; i<amount; i++)
+	{
+		if(creatures[i].getLife()>=lifeReproduction.x && creatures[i].getLife()<=lifeReproduction.y)
+		{
+			for (int r=0; r<=howMany; r++){
+				Creature idiot=creatures[i];
+				number=rand()&creatures[i].comands.size();
+				change=rand()%50;
+				if(change==1)
+				{
+					idiot.comands[number]=number;
+				}
+				idiot.setLife(30);
+				creatures.push_back(idiot);
+				int i=0;
+				while(true)
+				{
+					x=rand()%map.getWidth();
+					y=rand()%map.getHeight();
+					if(map.getObject(x,y)==Object::Voidness)
+					{
+						creatures[amount+r+1].setCordinats(x,y);
+						map.setObject(x, y, creatures[amount+r]);
+						break;
+					}
+					i++;
+					if(i==map.getHeight() * map.getWidth()) break;
+				}
+			}
+		}
+	}
+	
 }
 
 int main()
@@ -55,31 +101,27 @@ int main()
 	bool a=false;
 
 	
-	if(a){
-	cout << "Enter the window resolution:" << endl;
-
-	
-	cin >> video[0] >> video[1];
+	#ifndef DEBUG
 
 	cout << "Enter the map parametrs: \nwidth, height, Cellsize, interval" << endl;
 
 	cin >> width >> height >> Cellsize >> interval;
-	}
-	else{
-		video[0]=800;
-		video[1]=800;
-		width=40;
+	#else	
+		width=80;
 		height=40;
 		Cellsize=20;
 		interval=1;
-	}
+		
+	#endif
+	video[0]=width*Cellsize+200;
+	video[1]=height*Cellsize;
 	sf::RenderWindow window(sf::VideoMode(video[0], video[1]), "Evolution", Style::Close);
 	window.setFramerateLimit(60);
 
 	Voidness voidness(Color::Color(26,26,26));
 	Wall wall(Color::Red);
-	Food food(Color::Green);
-	Poison poisonn(Color::Yellow);
+	Food food(Color::Green, 5);
+	Poison poisonn(Color::Yellow, 5);
 
 	vector<Creature> idiots(16);
 	for (int i=0;i<idiots.size();i++)
@@ -104,14 +146,41 @@ int main()
 
 	Step step;
 
-	bool pause=false;
+	bool pause=true;
 
 	float time=1.0f;
 
 	vector<Creature> deadCreatures;
 
+	int maxlive=0;
+
+	Font font;
+
+	font.loadFromFile(FONT_PATH);
+	Text maxText;
+	maxText.setPosition(map.getPosition().x + map.getSize().x-35, map.getPosition().y);
+	maxText.setFont(font);
+	maxText.setCharacterSize(20);
+
+	Text average;
+	average.setFont(font);
+	average.setCharacterSize(20);
+	average.setPosition(map.getPosition().x + map.getSize().x-35, map.getPosition().y+20);
+
+	vector<Text> life;
+	for(int i=0; i<idiots.size(); i++)
+	{
+		Text nowtext;
+		nowtext.setFont(font);
+		nowtext.setCharacterSize(20);
+		nowtext.setPosition(map.getPosition().x + map.getSize().x-35, map.getPosition().y + 40 + i*20);
+		life.push_back(nowtext);
+	}
+
 	while (window.isOpen())
 	{
+
+		
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -121,28 +190,33 @@ int main()
 			
 			if(event.type==event.KeyPressed)
 			{
-				if(Keyboard::isKeyPressed(Keyboard::Up))
+				if(Keyboard::isKeyPressed(Keyboard::Up) && time>0.0f)
 				{
-					time+=0.01f;
+					time-=0.01f;
 				}
-				else if(Keyboard::isKeyPressed(Keyboard::Down) && time>0.0f)
+				else if(Keyboard::isKeyPressed(Keyboard::Down))
 				{
 					
-					time-=0.01f;
+					time+=0.01f;
+				}
+
+				if(Keyboard::isKeyPressed(Keyboard::Space))
+				{
+					if(pause) pause=false;
+					else pause=true;
 				}
 			}
 			
-			
 		}
 		
-		if (clock.getElapsedTime().asSeconds()>time)
+		if (clock.getElapsedTime().asSeconds()>time && pause)
 		{
-			
+			/*
 			for (int i = 0; i < idiots.size(); i++)
 			{
 				--idiots[i];
 			}
-
+			*/
 			step.doStep(map, idiots, voidness, food, poisonn);
 			
 			int deads=0;
@@ -165,17 +239,40 @@ int main()
 				}
 			}
 
+			reproduction(map, idiots, 1, Vector2i(50, 70));
+
 			if(deads==idiots.size())
 			{
-				reproduction(map,idiots,deadCreatures,30,4,voidness);
+				reborn(map,idiots,deadCreatures,30,4,voidness);
 				Rand.setFoodandPoison(map,food,poisonn,voidness);
 			}
 
 			clock.restart();
 		}
 
+		float livesumm=0;
+		for(int i=0; i<idiots.size(); i++)
+		{
+			maxlive=max(maxlive, idiots[i].getLife());
+			if(!idiots[i].isDead()) livesumm+=idiots[i].getLife();
+		}
+
+		maxText.setString("max - " + to_string(maxlive));
+		average.setString("average - " + to_string(livesumm/idiots.size()));
+
+		for(int h=0; h<life.size(); h++)
+		{
+			if(!idiots[h].isDead()) life[h].setString(to_string(h) + " - " + to_string(idiots[h].getLife()));
+		}
+
 		window.clear();
 		map.render(window);
+		window.draw(maxText);
+		window.draw(average);
+		for(int h=0; h<life.size(); h++)
+		{
+			window.draw(life[h]);
+		}
 		window.display();
 	}
 

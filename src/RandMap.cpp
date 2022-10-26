@@ -87,7 +87,7 @@ void RandMap::setFoodandPoison(Map& map, Food& food, Poison& poison, Voidness& v
 	for (int y = 0; y < map.getHeight(); ++y) {
 		for (int x = 0; x < map.getWidth(); ++x) {
 
-			Number = rand() % 5;
+			Number = rand() % 8;
 			
 			if(map.getObject(x,y)==Object::Voidness)
 			{

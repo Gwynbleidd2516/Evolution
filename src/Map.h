@@ -26,6 +26,7 @@ private:
 	int height;
 	int Cellsize;
 	int interval;
+	Vector2f Position;
 
 public:
 	Map(const int width, const int height, int Cellsize, int interval);
@@ -49,5 +50,9 @@ public:
 	int getWidth();
 
 	int getHeight();
+
+	Vector2f getSize();
+
+	Vector2f getPosition();
 };
 #endif // !MAP

@@ -303,7 +303,9 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness, 
                     if(map.getObject(cord)==Object::Food)
                     {
                         map.setObject(cord, voidness);
-                        creatures[i]+=5;
+                        creatures[i]+=food.getFood();
+                        if(!creatures[i].isDead())
+                            map.setObject(creatures[i].getCordinats(), creatures[i]);
                         while(true)
                         {
                             x=rand()%map.getWidth();
@@ -319,7 +321,9 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness, 
                     if(map.getObject(cord)==Object::Poison)
                     {
                         map.setObject(cord, voidness);
-                        creatures[i]-=5;
+                        creatures[i]-=poison.getPoison();
+                        if(!creatures[i].isDead())
+                            map.setObject(creatures[i].getCordinats(), creatures[i]);
                         while(true)
                         {
                             x=rand()%map.getWidth();
@@ -426,12 +430,13 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness, 
                             #endif
                         }
                         break;
-                    default:
-                        break;
                     }
                 }
                 
             }
         }
+        --creatures[i];
+        if(!creatures[i].isDead())
+            map.setObject(creatures[i].getCordinats(), creatures[i]);
     }
 }

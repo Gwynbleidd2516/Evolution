@@ -37,6 +37,8 @@ void Map::setObject(Vector2i vector, Thing & thing)
 
 void Map::setPosition(float x, float y)
 {
+	Position.x=x;
+	Position.y=y;
 	CubeMap[0][0].setPosition(x, y);
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
@@ -47,6 +49,7 @@ void Map::setPosition(float x, float y)
 
 void Map::setPosition(Vector2f vector)
 {
+	Position=vector;
 	CubeMap[0][0].setPosition(vector);
 	
 	for (int y = 0; y < height; y++) {
@@ -98,7 +101,10 @@ void Map::render(RenderWindow& window)
 			CubeMap[x][y].setFillColor(ColorMap[x][y]);
 			CubeMap[x][y].setOutlineThickness(interval);
 			CubeMap[x][y].setOutlineColor(Color::Black);
+			//if(stoi(TextMap[x][y].getString())<100) 
 			TextMap[x][y].setCharacterSize(Cellsize);
+			//else 
+			//TextMap[x][y].setCharacterSize(Cellsize/2);
 			TextMap[x][y].setPosition(CubeMap[x][y].getPosition().x, CubeMap[x][y].getPosition().y-CubeMap[x][y].getSize().y*0.2);			
 		}
 	}
@@ -109,4 +115,14 @@ void Map::render(RenderWindow& window)
 			window.draw(TextMap[x][y]);
 		}
 	}
+}
+
+Vector2f Map::getSize()
+{
+	return Vector2f((Cellsize+interval)*width,(Cellsize+interval)*height);
+}
+
+Vector2f Map::getPosition()
+{
+	return Position;
 }

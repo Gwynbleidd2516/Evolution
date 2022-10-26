@@ -5,6 +5,7 @@
 #include"SFML/Graphics.hpp"
 using namespace sf;
 using namespace std;
+#define FONT_PATH "res\\Time-Roman-Normal-Font.ttf"
 
 enum class Object {
 	Voidness,
@@ -13,7 +14,6 @@ enum class Object {
 	Wall,
 	Food
 };
-
 
 class Thing {
 

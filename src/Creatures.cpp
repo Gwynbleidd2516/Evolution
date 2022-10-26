@@ -1,5 +1,4 @@
 #include "Creatures.h"
-#define FONT_PATH "res\\Time-Roman-Normal-Font.ttf"
 
 Creature::Creature(Color color, int life, bool brand)
 {
@@ -180,6 +179,7 @@ void Creature::operator++()
 	lifeNow++;
 	if(lifeNow<0) dead = true;
 	else dead=false;
+	text.setString(to_string(lifeNow));
 }
 
 void Creature::operator--()
@@ -187,6 +187,7 @@ void Creature::operator--()
 	lifeNow--;
 	if(lifeNow<0) dead = true;
 	else dead=false;
+	text.setString(to_string(lifeNow));
 }
 
 void Creature::operator+=(int value)
@@ -194,12 +195,14 @@ void Creature::operator+=(int value)
 	lifeNow+=value;
 	if(lifeNow<=0) dead = true;
 	else dead=false;
+	text.setString(to_string(lifeNow));
 }
 
 void Creature::operator-=(int value)
 {
 	if(lifeNow-value>0) lifeNow-=value;
 	else lifeNow=0;
+	text.setString(to_string(lifeNow));
 	
 }
 
@@ -225,6 +228,7 @@ void Creature::operator=(Creature& creature)
 	this->life=creature.life;
 	this->lifeNow=creature.lifeNow;
 	this->position=creature.position;
+	this->dead=creature.dead;
 }
 
 bool Creature::operator==(Creature& creature)
