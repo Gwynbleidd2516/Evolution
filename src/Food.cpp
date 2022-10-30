@@ -19,11 +19,6 @@ Object Food::getObject()
 	return object;
 }
 
-Text Food::getText()
-{
-	return text;
-}
-
 int Food::getFood()
 {
 	return food;

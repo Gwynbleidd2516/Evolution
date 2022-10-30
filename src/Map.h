@@ -6,7 +6,7 @@
 #include"Things.h"
 #include<vector>
 
-#define DEBUG_MAP
+// #define DEBUG_MAP
 
 #ifdef DEBUG_MAP
 #include<iostream>
@@ -19,14 +19,13 @@ using namespace std;
 class Map {
 private:
 	vector<vector<Color>> ColorMap;
-	vector<vector<RectangleShape>> CubeMap;
 	vector<vector<Object>> ObjectMap;
-	vector<vector<Text>> TextMap;
 	int width;
 	int height;
 	int Cellsize;
 	int interval;
 	Vector2f Position;
+	RectangleShape cube;
 
 public:
 	Map(const int width, const int height, int Cellsize, int interval);

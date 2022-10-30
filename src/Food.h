@@ -22,8 +22,6 @@ public:
 
 	Object getObject() override;
 
-	Text getText() override;
-
 	int getFood();
 };
 

@@ -32,6 +32,8 @@ private:
 	Vector2i position;
 	Direction direction;
 	bool dead=false;
+	int comands_capacity=40;
+	int lifeLimit=100;
 
 public: vector<int> comands;
 	
@@ -40,7 +42,11 @@ public:
 
 	Creature();
 
+	Creature(int life, bool brand=true);
+
 	void setCreature(Color color, int life, bool brand=true);
+
+	void setCreature(int life, bool brand=true);
 
 	Color getColor() override;
 
@@ -49,8 +55,6 @@ public:
 	void setLife(int life);
 	
 	int getLife();
-
-	Text getText() override;
 
 	void setCordinats(Vector2i vector);
 

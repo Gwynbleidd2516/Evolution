@@ -19,11 +19,6 @@ Object Poison::getObject()
 	return object;
 }
 
-Text Poison::getText()
-{
-	return text;
-}
-
 int Poison::getPoison()
 {
 	return poison;

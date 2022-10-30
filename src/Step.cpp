@@ -433,6 +433,62 @@ void Step::doStep(Map & map, vector<Creature> & creatures, Voidness & voidness, 
                     }
                 }
                 
+                if(comand>=32 && comand<40)
+                {
+                    Vector2i cord;
+                    switch (comand)
+                    {
+                    case 32:
+                        cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y-1);
+
+                        break;
+                    case 33:
+                        cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y-1);
+                        
+                        break;
+                    case 34:
+                        cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y-1);
+                        
+                        break;
+                    case 35:
+                        cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y);
+                        
+                        break;
+                    case 36:
+                        cord=Vector2i(creatures[i].getCordinats().x+1,creatures[i].getCordinats().y+1);
+                        
+                        break;
+                    case 37:
+                        cord=Vector2i(creatures[i].getCordinats().x,creatures[i].getCordinats().y+1);
+                        
+                        break;
+                    case 38:
+                        cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y+1);
+                        
+                        break;
+                    case 39:
+                        cord=Vector2i(creatures[i].getCordinats().x-1,creatures[i].getCordinats().y);
+                        
+                        break;
+                    }
+
+                    if(map.getObject(cord)==Object::Creature)
+                    {
+                        for(int h = 0; h<creatures.size(); h++)
+                        {
+                            if(creatures[h].getCordinats()==cord && !creatures[h].isDead())
+                            {
+                                creatures[h]-=5;
+                                creatures[i]+=5;
+                                break;
+
+                                #ifdef DEBUG_STEP
+                                    cout<<i <<" got from "<< h<<endl;
+                                #endif
+                            }
+                        }
+                    }
+                }
             }
         }
         --creatures[i];

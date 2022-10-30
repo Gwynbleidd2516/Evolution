@@ -59,13 +59,14 @@ void reproduction(Map& map, vector<Creature>& creatures, int howMany, Vector2i l
 	int change;
 	int x;
 	int y;
+	
 	for(int i=0; i<amount; i++)
 	{
 		if(creatures[i].getLife()>=lifeReproduction.x && creatures[i].getLife()<=lifeReproduction.y)
 		{
 			for (int r=0; r<=howMany; r++){
 				Creature idiot=creatures[i];
-				number=rand()&creatures[i].comands.size();
+				number=rand()%creatures[i].comands.size();
 				change=rand()%50;
 				if(change==1)
 				{
@@ -80,12 +81,14 @@ void reproduction(Map& map, vector<Creature>& creatures, int howMany, Vector2i l
 					y=rand()%map.getHeight();
 					if(map.getObject(x,y)==Object::Voidness)
 					{
-						creatures[amount+r+1].setCordinats(x,y);
+						creatures[amount+r].setCordinats(x,y);
 						map.setObject(x, y, creatures[amount+r]);
 						break;
 					}
+
 					i++;
-					if(i==map.getHeight() * map.getWidth()) break;
+
+					if(i==(map.getHeight()-1) * (map.getWidth()-1)) break;
 				}
 			}
 		}
@@ -113,7 +116,7 @@ int main()
 		interval=1;
 		
 	#endif
-	video[0]=width*Cellsize+200;
+	video[0]=width*Cellsize+250;
 	video[1]=height*Cellsize;
 	sf::RenderWindow window(sf::VideoMode(video[0], video[1]), "Evolution", Style::Close);
 	window.setFramerateLimit(60);
@@ -126,7 +129,7 @@ int main()
 	vector<Creature> idiots(16);
 	for (int i=0;i<idiots.size();i++)
 	{
-		idiots[i].setCreature(Color::Blue, 30);
+		idiots[i].setCreature(Color::Blue,30);
 	}
 
 	Map map(width, height, Cellsize, interval);
@@ -158,24 +161,18 @@ int main()
 
 	font.loadFromFile(FONT_PATH);
 	Text maxText;
-	maxText.setPosition(map.getPosition().x + map.getSize().x-35, map.getPosition().y);
+	maxText.setPosition(map.getPosition().x + map.getSize().x+1, map.getPosition().y);
 	maxText.setFont(font);
 	maxText.setCharacterSize(20);
 
 	Text average;
 	average.setFont(font);
 	average.setCharacterSize(20);
-	average.setPosition(map.getPosition().x + map.getSize().x-35, map.getPosition().y+20);
+	average.setPosition(map.getPosition().x + map.getSize().x+1, map.getPosition().y+20);
 
-	vector<Text> life;
-	for(int i=0; i<idiots.size(); i++)
-	{
-		Text nowtext;
-		nowtext.setFont(font);
-		nowtext.setCharacterSize(20);
-		nowtext.setPosition(map.getPosition().x + map.getSize().x-35, map.getPosition().y + 40 + i*20);
-		life.push_back(nowtext);
-	}
+	Text life;
+	life.setFont(font);
+	life.setCharacterSize(20);
 
 	while (window.isOpen())
 	{
@@ -211,6 +208,7 @@ int main()
 		
 		if (clock.getElapsedTime().asSeconds()>time && pause)
 		{
+			
 			/*
 			for (int i = 0; i < idiots.size(); i++)
 			{
@@ -221,9 +219,12 @@ int main()
 			
 			int deads=0;
 
+			int lifes=0;
+
 			for (int i=0; i<idiots.size(); i++)
 			{
 				deads+=idiots[i].isDead();
+				lifes+=!idiots[i].isDead();
 				if(idiots[i].isDead())
 				{
 					bool exit=false;
@@ -239,13 +240,21 @@ int main()
 				}
 			}
 
-			reproduction(map, idiots, 1, Vector2i(50, 70));
+			reproduction(map, idiots, 1, Vector2i(90, 100));
 
 			if(deads==idiots.size())
 			{
 				reborn(map,idiots,deadCreatures,30,4,voidness);
 				Rand.setFoodandPoison(map,food,poisonn,voidness);
 			}
+
+			// for (int i = 0; i<idiots.size(); i++)
+			// {
+			// 	if(idiots[i].isDead())
+			// 	{
+			// 		map.setObject(idiots[i].getCordinats(), voidness);
+			// 	}
+			// }
 
 			clock.restart();
 		}
@@ -260,18 +269,24 @@ int main()
 		maxText.setString("max - " + to_string(maxlive));
 		average.setString("average - " + to_string(livesumm/idiots.size()));
 
-		for(int h=0; h<life.size(); h++)
-		{
-			if(!idiots[h].isDead()) life[h].setString(to_string(h) + " - " + to_string(idiots[h].getLife()));
-		}
+		
 
 		window.clear();
 		map.render(window);
 		window.draw(maxText);
 		window.draw(average);
-		for(int h=0; h<life.size(); h++)
+		int textPosition=map.getPosition().x + map.getSize().x+1;
+		for(int h = 0, i = 0;i<idiots.size();i++)
 		{
-			window.draw(life[h]);
+			life.setString(to_string(i) + " - " + to_string(idiots[i].getLife()));
+			if(map.getPosition().y + 40 + h*20 > map.getPosition().y + map.getSize().y-20)
+			{
+				textPosition+=70;
+				h=0;
+			}
+			h++;
+			life.setPosition(textPosition, map.getPosition().y+20 + h*20);
+			window.draw(life);
 		}
 		window.display();
 	}

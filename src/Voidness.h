@@ -20,8 +20,6 @@ public:
 	Color getColor() override;
 
 	Object getObject() override;
-
-	Text getText() override;
 };
 
 #endif // !VOIDNESS

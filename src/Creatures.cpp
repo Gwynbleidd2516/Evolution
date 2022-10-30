@@ -11,7 +11,7 @@ Creature::Creature(Color color, int life, bool brand)
 
 	for(int i = 0; i < 48; i++)
 	{
-		number=rand() % 32;
+		number=rand() % comands_capacity;
 		comands.push_back(number);
 	}
 
@@ -56,6 +56,62 @@ Creature::Creature()
 	
 }
 
+Creature::Creature(int life, bool brand)
+{
+	this->life=life;
+	lifeNow=life;
+	int number;
+
+	if(brand) srand(time(0));
+
+	int r=rand()%256;
+	int g=rand()%256;
+	int b=rand()%256;
+
+	color=Color(r,g,b,0);
+
+	for(int i = 0; i < 48; i++)
+	{
+		number=rand() % comands_capacity;
+		comands.push_back(number);
+	}
+
+	font.loadFromFile(FONT_PATH);
+	text.setFont(font);
+	text.setString(to_string(lifeNow));
+
+	number=rand()%8;
+	switch (number)
+	{
+	case 0:
+		direction=Direction::DOWN;
+		break;
+	case 1:
+		direction=Direction::DOWN_LEFT;
+		break;
+	case 2:
+		direction=Direction::DOWN_RIGHT;
+		break;
+	case 3:
+		direction=Direction::LEFT;
+		break;
+	case 4:
+		direction=Direction::LEFT_UP;
+		break;
+	case 5:
+		direction=Direction::RIGHT;
+		break;
+	case 6:
+		direction=Direction::RIGHT_UP;
+		break;
+	case 7:
+		direction=Direction::UP;
+		break;
+	default:
+		break;
+	}
+}
+
 void Creature::setCreature(Color color, int life, bool brand)
 {
 	this->life=life;
@@ -66,7 +122,64 @@ void Creature::setCreature(Color color, int life, bool brand)
 
 	for(int i=0;i<48;i++)
 	{
-		number=rand() % 32;
+		number=rand() % comands_capacity;
+		comands.push_back(number);
+	}
+
+	font.loadFromFile(FONT_PATH);
+	text.setFont(font);
+	text.setString(to_string(lifeNow));
+
+	number=rand()%8;
+	switch (number)
+	{
+	case 0:
+		direction=Direction::DOWN;
+		break;
+	case 1:
+		direction=Direction::DOWN_LEFT;
+		break;
+	case 2:
+		direction=Direction::DOWN_RIGHT;
+		break;
+	case 3:
+		direction=Direction::LEFT;
+		break;
+	case 4:
+		direction=Direction::LEFT_UP;
+		break;
+	case 5:
+		direction=Direction::RIGHT;
+		break;
+	case 6:
+		direction=Direction::RIGHT_UP;
+		break;
+	case 7:
+		direction=Direction::UP;
+		break;
+	default:
+		break;
+	}
+}
+
+void Creature::setCreature(int life, bool brand)
+{
+	this->life=life;
+	lifeNow=life;
+	int number;
+
+	if(brand) srand(time(0));
+
+	int r=rand()%256;
+	int g=rand()%256;
+	int b=rand()%256;
+	int a=rand()%256;
+
+	color=Color(r,g,b,a);
+
+	for(int i = 0; i < 48; i++)
+	{
+		number=rand() % comands_capacity;
 		comands.push_back(number);
 	}
 
@@ -126,15 +239,19 @@ void Creature::setLife(int life)
 
 int Creature::getLife()
 {
-	if(lifeNow<0) dead = true;
+	if(lifeNow<0) 
+	{
+		dead = true;
+		lifeNow=0;
+	}
 	else dead=false;
-	return lifeNow;
-}
 
-Text Creature::getText()
-{
-	text.setString(to_string(lifeNow));
-	return text;
+	if(lifeNow>lifeLimit)
+	{
+		lifeNow=lifeLimit;
+	}
+
+	return lifeNow;
 }
 
 void Creature::setCordinats(Vector2i vector)
@@ -169,7 +286,7 @@ void Creature::setRandomComands()
 	int number;
 	for(int i=0;i<48;i++)
 	{
-		number=rand() % 32;
+		number=rand() % comands_capacity;
 		comands[i]=number;
 	}
 }

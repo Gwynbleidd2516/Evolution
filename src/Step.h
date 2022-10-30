@@ -9,7 +9,7 @@
 #include"Poison.h"
 #include<ctime>
 
-//#define DEBUG_STEP
+// #define DEBUG_STEP
 #ifdef DEBUG_STEP
 #include<iostream>
 #endif

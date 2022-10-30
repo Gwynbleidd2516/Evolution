@@ -18,8 +18,3 @@ Object Voidness::getObject()
 {
 	return object;
 }
-
-Text Voidness::getText()
-{
-	return text;
-}

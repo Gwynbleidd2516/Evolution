@@ -10,68 +10,46 @@ Map::Map(const int width, const int height, int Cellsize, int interval)
 	{
 		this->Cellsize=10;
 	}
-	CubeMap.resize(width, vector<RectangleShape>(height));
 	ColorMap.resize(width, vector<Color>(height));
 	ObjectMap.resize(width, vector<Object>(height));
-	TextMap.resize(width, vector<Text>(height));
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			CubeMap[x][y].setSize(Vector2f(Cellsize + interval, Cellsize + interval));
-		}
-	}
+	
+	cube.setSize(Vector2f(Cellsize + interval, Cellsize + interval));
+	cube.setOutlineThickness(interval);
+	cube.setOutlineColor(Color::Black);
 }
 
 void Map::setObject(int x, int y, Thing& thing)
 {
 	ColorMap[x][y] = thing.getColor();
 	ObjectMap[x][y] = thing.getObject();
-	TextMap[x][y] = thing.getText();
 }
 
 void Map::setObject(Vector2i vector, Thing & thing)
 {
 	ColorMap[vector.x][vector.y] = thing.getColor();
 	ObjectMap[vector.x][vector.y] = thing.getObject();
-	TextMap[vector.x][vector.y] = thing.getText();
 }
 
 void Map::setPosition(float x, float y)
 {
 	Position.x=x;
 	Position.y=y;
-	CubeMap[0][0].setPosition(x, y);
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			CubeMap[x][y].setPosition(CubeMap[0][0].getPosition().x + (Cellsize * x), CubeMap[0][0].getPosition().y + (Cellsize * y));
-		}
-	}
 }
 
 void Map::setPosition(Vector2f vector)
 {
 	Position=vector;
-	CubeMap[0][0].setPosition(vector);
-	
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			CubeMap[x][y].setPosition(CubeMap[0][0].getPosition().x + (Cellsize * x), CubeMap[0][0].getPosition().y + (Cellsize * y));
-			#ifdef DEBUG_MAP
-			if(ObjectMap[x][y]==Object::Creature)
-				cout<<TextMap[x][y].getPosition().x<<"\t"<<TextMap[x][y].getPosition().y<<"\t"<<x<<"\t"<<y<<endl;
-			#endif
-		}
-	}
 }
 
 void Map::operator=(Map & map)
 {
 	this->ColorMap = map.ColorMap;
-	this->CubeMap = map.CubeMap;
 	this->ObjectMap = map.ObjectMap;
 	this->Cellsize = map.Cellsize;
 	this->height = map.height;
 	this->width = map.width;
 	this->interval = map.interval;
+	this->cube=map.cube;
 }
 
 int Map::getWidth()
@@ -96,30 +74,20 @@ Object Map::getObject(Vector2i vector)
 
 void Map::render(RenderWindow& window)
 {
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			CubeMap[x][y].setFillColor(ColorMap[x][y]);
-			CubeMap[x][y].setOutlineThickness(interval);
-			CubeMap[x][y].setOutlineColor(Color::Black);
-			//if(stoi(TextMap[x][y].getString())<100) 
-			TextMap[x][y].setCharacterSize(Cellsize);
-			//else 
-			//TextMap[x][y].setCharacterSize(Cellsize/2);
-			TextMap[x][y].setPosition(CubeMap[x][y].getPosition().x, CubeMap[x][y].getPosition().y-CubeMap[x][y].getSize().y*0.2);			
-		}
-	}
-	
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			window.draw(CubeMap[x][y]);
-			window.draw(TextMap[x][y]);
+	for (int y = 0; y < height; y++) 
+	{
+		for (int x = 0; x < width; x++) 
+		{
+			cube.setFillColor(ColorMap[x][y]);
+			cube.setPosition(Position.x + (Cellsize * x), Position.y + (Cellsize * y));
+			window.draw(cube);
 		}
 	}
 }
 
 Vector2f Map::getSize()
 {
-	return Vector2f((Cellsize+interval)*width,(Cellsize+interval)*height);
+	return Vector2f((Cellsize)*width,(Cellsize)*height);
 }
 
 Vector2f Map::getPosition()
