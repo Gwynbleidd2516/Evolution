@@ -66,6 +66,7 @@ void reproduction(Map& map, vector<Creature>& creatures, int howMany, Vector2i l
 		{
 			for (int r=0; r<=howMany; r++){
 				Creature idiot=creatures[i];
+				creatures[i]-=lifeReproduction.x;
 				number=rand()%creatures[i].comands.size();
 				change=rand()%50;
 				if(change==1)
@@ -76,7 +77,7 @@ void reproduction(Map& map, vector<Creature>& creatures, int howMany, Vector2i l
 				creatures.push_back(idiot);
 				int i=0;
 				while(true)
-				{
+				{					
 					x=rand()%map.getWidth();
 					y=rand()%map.getHeight();
 					if(map.getObject(x,y)==Object::Voidness)
@@ -110,9 +111,9 @@ int main()
 
 	cin >> width >> height >> Cellsize >> interval;
 	#else	
-		width=80;
-		height=40;
-		Cellsize=20;
+		width=160;
+		height=80;
+		Cellsize=10;
 		interval=1;
 		
 	#endif
@@ -240,7 +241,8 @@ int main()
 				}
 			}
 
-			reproduction(map, idiots, 1, Vector2i(90, 100));
+			// if(idiots.size() - deads == 4)
+			reproduction(map, idiots, 1, Vector2i(50, 65));
 
 			if(deads==idiots.size())
 			{
@@ -254,6 +256,7 @@ int main()
 			// 	{
 			// 		map.setObject(idiots[i].getCordinats(), voidness);
 			// 	}
+			// 	// idiots.erase(idiots.begin() + i);
 			// }
 
 			clock.restart();
@@ -278,15 +281,18 @@ int main()
 		int textPosition=map.getPosition().x + map.getSize().x+1;
 		for(int h = 0, i = 0;i<idiots.size();i++)
 		{
-			life.setString(to_string(i) + " - " + to_string(idiots[i].getLife()));
-			if(map.getPosition().y + 40 + h*20 > map.getPosition().y + map.getSize().y-20)
+			if(!idiots[i].isDead())
 			{
-				textPosition+=70;
-				h=0;
+				life.setString(to_string(i) + " - " + to_string(idiots[i].getLife()));
+				if(map.getPosition().y + 40 + h*20 > map.getPosition().y + map.getSize().y-20)
+				{
+					textPosition+=70;
+					h=0;
+				}
+				h++;
+				life.setPosition(textPosition, map.getPosition().y+20 + h*20);
+				window.draw(life);
 			}
-			h++;
-			life.setPosition(textPosition, map.getPosition().y+20 + h*20);
-			window.draw(life);
 		}
 		window.display();
 	}

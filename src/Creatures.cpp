@@ -325,7 +325,7 @@ void Creature::operator-=(int value)
 
 bool Creature::isDead()
 {
-	if(lifeNow<0) dead = true;
+	if(lifeNow<=0) dead = true;
 	else dead=false;
 	return dead;
 }

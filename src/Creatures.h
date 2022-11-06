@@ -20,7 +20,8 @@ enum class Direction
 		LEFT
 	};
 
-class Creature : public Thing {
+class Creature : public Thing 
+{
 private:
 	Color color;
 	const Object object = Object::Creature;
